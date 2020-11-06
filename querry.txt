@@ -7,12 +7,13 @@ FROM package
 INNER JOIN sender on package.FK_ID_S = sender.ID_S
 INNER JOIN info on package.FK_ID_I = info.ID_I
 
-2: List recipient with packages
+2: List recipient and sender the according with packages
 
-SELECT recipient.name, recipient.surname, package.ID_P, info.delivered
+SELECT recipient.name, recipient.surname, package.ID_P AS 'Package ID', info.delivered, sender.surname AS 'Sent BY'
 FROM package
 INNER JOIN recipient on package.FK_ID_R = recipient.ID_R
 INNER JOIN info on package.FK_ID_I = info.ID_I
+INNER JOIN sender on package.FK_ID_S = sender.ID_S
 
 3: Employee location and packages location
 
