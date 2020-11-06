@@ -1,0 +1,44 @@
+Querries
+
+1: List sender with packages
+
+SELECT sender.name, sender.surname, package.ID_P, info.delivered
+FROM package
+INNER JOIN sender on package.FK_ID_S = sender.ID_S
+INNER JOIN info on package.FK_ID_I = info.ID_I
+
+2: List recipient with packages
+
+SELECT recipient.name, recipient.surname, package.ID_P, info.delivered
+FROM package
+INNER JOIN recipient on package.FK_ID_R = recipient.ID_R
+INNER JOIN info on package.FK_ID_I = info.ID_I
+
+3: Employee location and packages location
+
+SELECT employees.surname, employees.title, mail.address AS 'Current location', package.ID_P AS 'Package ID'
+FROM package
+INNER JOIN mail on package.Fk_ID_M = mail.ID_M 
+INNER JOIN employees on mail.FK_ID_E = employees.ID_E
+
+4: recipients that have recieved their package
+
+SELECT recipient.name, recipient.surname, package.ID_P AS 'Package ID'
+FROM package
+INNER JOIN recipient on package.FK_ID_R = recipient.ID_R
+WHERE package.FK_ID_I IN
+	(SELECT info.ID_I FROM info WHERE info.delivered = 0)
+
+5: Salary cost of the NY post office 
+
+SELECT SUM(employees.salary)
+FROM employees
+WHERE employees.ID_E IN
+
+(SELECT mail.FK_ID_E FROM mail WHERE mail.address = 'Times square 2')
+
+6: List employers by descending order based on the salary
+
+SELECT employees.name, employees.surname, employees.title, employees.salary
+FROM employees
+ORDER BY employees.salary DESC
